@@ -1779,7 +1779,7 @@
             if (si === 0 || dark) { let t = '<div class="toran">'; for (let i = 0; i < 9; i++)t += `<i style="height:${36 + ((i * 37) % 4) * 18}px;animation-delay:-${(i * .7).toFixed(1)}s"><svg style="color:${dark ? 'var(--gold2)' : 'var(--terra)'}"><use href="${i % 2 ? '#fl1' : '#lot'}"/></svg></i>`; sec.insertAdjacentHTML('afterbegin', t + '</div>') }
         });
         // Photo slideshows (2 photos each, crossfade + slow zoom). Paste image URLs/data URIs to use real photos.
-        const PHOTOS = { proposal: ['/p1.jpeg', '/p2.jpeg'], wedding: ['/m1.jpeg', '/m2.jpeg'] };
+        const PHOTOS = { proposal: ['https://github.com/Jay51419/preeti-ravi/blob/main/p1.jpeg?raw=true', 'https://github.com/Jay51419/preeti-ravi/blob/main/p2.jpeg?raw=true'], wedding: ['https://raw.githubusercontent.com/Jay51419/preeti-ravi/refs/heads/main/m1.jpeg', 'https://github.com/Jay51419/preeti-ravi/blob/main/m2.jpeg?raw=true'] };
         document.querySelectorAll('.arch').forEach((a, k) => {
             const nm = k ? 'wedding' : 'proposal'; a.innerHTML = '';
             PHOTOS[nm].forEach((u, i) => {
@@ -1798,7 +1798,7 @@
         tick(); setInterval(tick, 1000);
 
         // Background music: set AUDIO_URL to your own song (mp3 link/data URI); otherwise a soft generated Indian-scale instrumental plays.
-        const AUDIO_URL = '/ddlj.mp3';
+        const AUDIO_URL = 'https://github.com/Jay51419/preeti-ravi/raw/refs/heads/main/ddlj.mp3';
         (() => {
             const btn = document.createElement('button'); btn.className = 'mus off'; btn.setAttribute('aria-label', 'Toggle music'); btn.innerHTML = '<i></i><i></i><i></i>';
             const tip = document.createElement('div'); tip.className = 'mtip'; tip.textContent = '♪ Tap for music'; document.body.append(btn, tip); setTimeout(() => tip.style.opacity = 0, 6000);
