@@ -635,7 +635,7 @@
 
         .pc-line .v {
             font-family: 'Jost', sans-serif;
-            font-size: 21px;
+            font-size: 16px;
             line-height: 1.3;
             color: var(--ink);
         }
@@ -1226,7 +1226,7 @@
                     <svg class="lot rv">
                         <use href="#lot" />
                     </svg>
-                    <div class="eyebrow rv d1">The wedding of</div>
+                    <div class="eyebrow rv d1">The wedding reception of</div>
                     <h1 class="names rv d2">Preeti<i>&amp;</i>Ravi</h1>
                     <div class="sub rv d3">A Celebration of Love</div>
                 </div>
@@ -1254,8 +1254,8 @@
             <div>
                 <h2 class="rv">They got <span>married</span></h2>
                 <div class="story-meta">
-                    <div class="story-date rv d1">09 May 2025</div>
-                    <div class="story-place rv d2">Bellevue Court House, Seattle, USA</div>
+                    <div class="story-date rv d1">09th May 2025</div>
+                    <div class="story-place rv d2">Bellevue Court House, WA, USA</div>
                 </div>
             </div>
             <div class="arch rv d2" data-album="wedding"></div>
@@ -1317,7 +1317,7 @@
                     </div>
                     <div class="pc-line rv d4">
                         <span class="l">Address</span>
-                        <div class="v">GCC Hotel and Club, Off Mira Bhayandar Road, 92/1, GCC Club Rd, off Mira Bhayander Link Road, Mira Road East, Thane, Maharashtra 401107</div>
+                        <div class="v">GCC Hotel & Club, Mira Road East, Thane, Maharashtra 401107</div>
                     </div>
                 </div>
 
@@ -1401,7 +1401,7 @@
                                 <input type="hidden" name="Children" id="ch-input" value="0">
                             </div>
                         </div>
-                        <div class="f">
+                        <!-- <div class="f">
                             <label>Meal preference</label>
                             <select name="Meal Preference">
                                 <option>No preference</option>
@@ -1410,7 +1410,7 @@
                                 <option>Jain</option>
                                 <option>Vegan</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="f">
                         <label>A wish or message for us</label>
@@ -1554,7 +1554,7 @@
         });
 
         // 7. RSVP Form (FormSubmit AJAX)
-        const FORMSUBMIT_EMAIL = 'ed2623d8b8d920b6b29d0645112b4f9f';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFu4Mi5AVcKk7yIuIublnbm9JzZXiXdA4Mik6LFR1cpqJor6hobHk2zyCw0l4FLyXReg/exec';
         const rsvp = document.getElementById('rsvp');
         const thanks = document.getElementById('thanks');
         const sum = document.getElementById('sum');
@@ -1576,16 +1576,27 @@
             const btn = document.getElementById('submit-btn'), orig = btn.textContent;
             btn.disabled = true;
             btn.textContent = 'Sending…';
-            const f = new FormData(rsvp), no = f.get('Attendance').startsWith('Reg');
-            if (no) { f.set('Adults', '0'); f.set('Children', '0'); f.set('Meal Preference', 'N/A'); }
+
+            const f = new FormData(rsvp);
+            const no = f.get('Attendance').startsWith('Reg');
+            if (no) {
+                f.set('Adults', '0');
+                f.set('Children', '0');
+                f.set('Meal Preference', 'N/A');
+            }
+
             try {
-                const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
-                    method: 'POST', headers: { 'Accept': 'application/json' }, body: f
+                // mode: 'no-cors' avoids Google Apps Script CORS redirect blocks on static sites
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: new URLSearchParams(f)
                 });
-                if (!res.ok) throw new Error('Submission failed');
+
                 const t = `Name: ${f.get('Full Name')}\nMobile: ${f.get('Mobile Number')}\nResponse: ${f.get('Attendance')}` +
                     (no ? '' : `\nGuests: ${f.get('Adults')} adult(s), ${f.get('Children')} child(ren)\nMeal: ${f.get('Meal Preference')}`) +
                     (f.get('Message') ? `\nMessage: ${f.get('Message')}` : '');
+
                 sum.textContent = t;
                 rsvp.style.display = 'none';
                 thanks.style.display = 'block';
