@@ -1582,7 +1582,6 @@
             if (no) {
                 f.set('Adults', '0');
                 f.set('Children', '0');
-                f.set('Meal Preference', 'N/A');
             }
 
             try {
@@ -1594,7 +1593,7 @@
                 });
 
                 const t = `Name: ${f.get('Full Name')}\nMobile: ${f.get('Mobile Number')}\nResponse: ${f.get('Attendance')}` +
-                    (no ? '' : `\nGuests: ${f.get('Adults')} adult(s), ${f.get('Children')} child(ren)\nMeal: ${f.get('Meal Preference')}`) +
+                    (no ? '' : `\nGuests: ${f.get('Adults')} adult(s), ${f.get('Children')} child(ren)`) +
                     (f.get('Message') ? `\nMessage: ${f.get('Message')}` : '');
 
                 sum.textContent = t;
